@@ -31,4 +31,20 @@ export class AuthService {
             throw new InternalServerErrorException('Error login user');
         }
     }
+
+    async login(user: User): Promise<any> {
+        // TODO::
+        // check if the user is verify
+
+        // generate token
+        const token = await this.securityService.generateToken(user);
+
+        // return user info and token
+        return { user, token };
+
+    }
+
+    async create(): Promise<User> {
+
+    }
 }
