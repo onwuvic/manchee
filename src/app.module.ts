@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DEVELOPMENT, TEST, PRODUCTION } from './core/constants';
 import { databaseConfig } from './core/database/database.config';
+import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -29,7 +31,9 @@ import { databaseConfig } from './core/database/database.config';
           models: []
         }
       },
-    })
+    }),
+    UsersModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
