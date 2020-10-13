@@ -44,7 +44,23 @@ export class AuthService {
 
     }
 
-    async create(): Promise<User> {
+    async create(user): Promise<User> {
+        try {
+            // start a transaction
 
+            // create user
+            const newUser = await this.userService.create({ ...user }); 
+            // create the user profile with the user
+
+            // end transaction
+
+            // find the user by id and eager load the profile
+
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { password, ...result } = newUser['dataValues'];
+            return result;
+        } catch (error) {
+            throw new InternalServerErrorException('Error creating a user');
+        }
     }
 }
