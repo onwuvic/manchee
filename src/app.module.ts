@@ -7,6 +7,7 @@ import { DEVELOPMENT, TEST, PRODUCTION } from './core/constants';
 import { databaseConfig } from './core/database/database.config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { models } from './core/database/models';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { AuthModule } from './modules/auth/auth.module';
         }
         return { 
           ...config, 
-          models: []
+          models: [...models]
         }
       },
     }),
