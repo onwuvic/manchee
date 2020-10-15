@@ -7,7 +7,7 @@ import { DEVELOPMENT, TEST, PRODUCTION } from './core/constants';
 import { databaseConfig } from './core/database/database.config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { models } from './core/database/models';
+// import { models } from './core/database/models';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 
 @Module({
@@ -29,8 +29,9 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
             config = databaseConfig.development;
         }
         return { 
-          ...config, 
-          models: [...models]
+          ...config,
+          autoLoadModels: true
+          // models: [...models]
         }
       },
     }),
