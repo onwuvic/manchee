@@ -8,6 +8,13 @@ export class UsersService {
     constructor(@InjectModel(User) private userRepository: typeof User) {}
 
     public async create(user: UserDto): Promise<User> {
+        // start a transaction
+        // create a user
+        // once user is created get the user Id
+        // create a profile with user id
+        // find the user with id and eager load the profile
+
+        // profile migration, profile entity, profile service
         return await this.userRepository.create<User>(user);
     }
 
