@@ -1,5 +1,6 @@
-import { Table, Column, Model, DataType, DefaultScope, Scopes, BeforeCreate } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, DefaultScope, Scopes, BeforeCreate, HasOne } from 'sequelize-typescript';
 import * as bcrypt from 'bcrypt';
+import { Profile } from '../../profiles/entities/profile.entity';
 
 @DefaultScope(() => ({
     attributes: {
@@ -67,4 +68,7 @@ export class User extends Model<User> {
         user.password = await bcrypt.hash(user.password, 10);
         user.gender.toLowerCase();
     }
+
+    @HasOne(() => Profile)
+    profile: Profile;
 }
