@@ -10,7 +10,9 @@ import { Profile } from '../../profiles/entities/profile.entity';
 @Scopes(() => ({
     withPassword: {}
 }))
-@Table
+@Table({
+    paranoid: true
+})
 export class User extends Model<User> {
     @Column({
         type: DataType.STRING,

@@ -1,7 +1,9 @@
 import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { User } from '../../../modules/users/entities/user.entity';
 
-@Table
+@Table({
+    paranoid: true
+})
 export class Profile extends Model<Profile> {
     @Column({
         type: DataType.STRING,
