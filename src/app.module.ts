@@ -8,6 +8,7 @@ import { databaseConfig } from './core/database/database.config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { models } from './core/database/models';
+import { ProfilesModule } from './modules/profiles/profiles.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { models } from './core/database/models';
       },
     }),
     UsersModule,
-    AuthModule
+    AuthModule,
+    ProfilesModule
   ],
   controllers: [AppController],
   providers: [AppService],
