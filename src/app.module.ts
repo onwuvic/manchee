@@ -30,7 +30,8 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
         }
         return { 
           ...config,
-          autoLoadModels: true
+          autoLoadModels: true,
+          // synchronize: true,
           // models: [...models]
         }
       },
