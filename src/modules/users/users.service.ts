@@ -4,6 +4,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { User } from './entities/user.entity';
 import { UserDto } from './dto/user.dto';
 import { ProfilesService } from '../profiles/profiles.service';
+import { Profile } from '../profiles/entities/profile.entity';
 
 @Injectable()
 export class UsersService {
@@ -11,10 +12,10 @@ export class UsersService {
         @InjectModel(User) 
         private userRepository: typeof User,
         private sequelize: Sequelize,
-        private profilesService: ProfilesService
+        private profileService: ProfilesService
     ) {}
 
-    async create(user: UserDto): Promise<User> {
+    async create(user: UserDto): Promise<any> {
         // start a transaction
         const transaction = await this.sequelize.transaction();
         try {
@@ -22,11 +23,13 @@ export class UsersService {
             const createdUser = await this.userRepository.create<User>(user, { transaction });
             // once user is created get the user Id
             // create a profile with user id
-            // find the user with id and eager load the profile
+            await this.profileService.create(createdUser.id, transaction);
 
-            // profile migration, profile entity, profile service
             await transaction.commit();
-            return createdUser; 
+            // find the user and return
+            const newUser = await this.findOneById(createdUser.id);
+
+            return newUser; 
         } catch (error) {
             await transaction.rollback();
             throw new InternalServerErrorException('Error creating user account. Try again later');
@@ -38,7 +41,12 @@ export class UsersService {
     }
 
     async findOneById(id: number): Promise<User> {
-        return await this.userRepository.findOne<User>({ where: { id } });
+        return await this.userRepository.findOne<User>({ 
+            where: { id },
+            include: [
+                { model: Profile },
+            ] 
+        });
     }
 
     async deleteById(id: number): Promise<string> {
