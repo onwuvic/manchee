@@ -105,7 +105,7 @@ export class UsersService {
     }
 
     async pendingFriendRequestReceived(id): Promise<any> {
-        return await this.userRepository.findOne({
+        const pendings = await this.userRepository.findOne({
             where: { id },
             include: [
                 { 
@@ -119,6 +119,7 @@ export class UsersService {
                 }
             ]
         });
+        return pendings.receivers;
     }
 
     private formatFriendsObject(friendsData) {
