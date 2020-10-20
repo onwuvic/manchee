@@ -83,7 +83,7 @@ export class UsersService {
                 },
             ]
         });
-        return this.formatFriendsObject(friends);
+        return [...friends.senders, ...friends.receivers];
     }
 
     async pendingFriendRequestSent(id): Promise<any> {
@@ -120,19 +120,5 @@ export class UsersService {
             ]
         });
         return pendings.receivers;
-    }
-
-    private formatFriendsObject(friendsData) {
-        const friends = {
-            id: friendsData.id,
-            firstName: friendsData.firstName,
-            lastName: friendsData.lastName,
-            email: friendsData.email,
-            isVerify: friendsData.isVerify,
-            gender: friendsData.gender,
-            createdAt: friendsData.createdAt,
-            friends: [...friendsData.senders, ...friendsData.receivers]
-        }
-        return friends
     }
 }
