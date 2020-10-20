@@ -1,4 +1,5 @@
 import { Table, Column, Model, DataType, ForeignKey, Default } from 'sequelize-typescript';
+import { PENDING, ACCEPTED, REJECTED } from '../../../core/constants';
 import { User } from '../../../modules/users/entities/user.entity';
 
 @Table
@@ -18,10 +19,10 @@ export class Friend extends Model<Friend> {
     })
     receiverId: number;
 
-    @Default('PENDING')
+    @Default(PENDING)
     @Column({
         type: DataType.ENUM,
-        values: ['ACCEPTED', 'PENDING', 'REJECTED'],
+        values: [ACCEPTED, PENDING, REJECTED],
         allowNull: false,
     })
     status: string;
