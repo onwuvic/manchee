@@ -26,6 +26,12 @@ export class FriendsController {
     }
 
     @UseGuards(AuthGuard('jwt'))
+    @Get('pending/receives')
+    async pendingFriendRequestReceived(@Request() req): Promise<any> {
+        return await this.friendService.pendingFriendRequestReceived(req.user.id);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
     @Put('accepts')
     async acceptRequest(@Body() body: ID, @Request() req) {
         return await this.friendService.acceptRequest(req.user.id, body.id);
