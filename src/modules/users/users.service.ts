@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { User } from './entities/user.entity';
 import { UserDto } from './dto/user.dto';
-import { ProfilesService } from '../profiles/profiles.service';
 import { Profile } from '../profiles/entities/profile.entity';
 
 @Injectable()
@@ -11,8 +10,7 @@ export class UsersService {
     constructor(
         @InjectModel(User) 
         private userRepository: typeof User,
-        private sequelize: Sequelize,
-        private profileService: ProfilesService
+        private sequelize: Sequelize
     ) {}
 
     async create(user: UserDto): Promise<any> {
@@ -23,7 +21,8 @@ export class UsersService {
             const createdUser = await this.userRepository.create<User>(user, { transaction });
             // once user is created get the user Id
             // create a profile with user id
-            await this.profileService.create(createdUser.id, transaction);
+            await createdUser.$create('profile', createdUser, { transaction });
+            // await this.profileService.create(createdUser.id, transaction);
 
             await transaction.commit();
             // find the user and return
@@ -56,5 +55,46 @@ export class UsersService {
 
     async findAll(): Promise<User[]> {
         return this.userRepository.findAll();
+    }
+
+    async findAllFriends(id): Promise<any> {
+        const friends = await this.userRepository.findOne({
+            where: { id },
+            include: [
+                { 
+                    model: User,
+                    as: 'senders',
+                    required: false,
+                    where: {
+                        '$senders.Friend.status$': 'ACCEPTED'
+                    },
+                    include: [{ model: Profile }]
+                },
+                { 
+                    model: User,
+                    required: false,
+                    as: 'receivers',
+                    where: {
+                        '$receivers.Friend.status$': 'ACCEPTED'
+                    },
+                    include: [{ model: Profile }]
+                },
+            ]
+        });
+        return this.formatFriendsObject(friends);
+    }
+
+    private formatFriendsObject(friendsData) {
+        const friends = {
+            id: friendsData.id,
+            firstName: friendsData.firstName,
+            lastName: friendsData.lastName,
+            email: friendsData.email,
+            isVerify: friendsData.isVerify,
+            gender: friendsData.gender,
+            createdAt: friendsData.createdAt,
+            friends: [...friendsData.senders, ...friendsData.receivers]
+        }
+        return friends
     }
 }
