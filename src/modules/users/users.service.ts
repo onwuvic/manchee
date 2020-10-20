@@ -4,6 +4,8 @@ import { Sequelize } from 'sequelize-typescript';
 import { User } from './entities/user.entity';
 import { UserDto } from './dto/user.dto';
 import { Profile } from '../profiles/entities/profile.entity';
+import { ACCEPTED } from '../../core/constants';
+import { PENDING } from '../../core/constants/index';
 
 @Injectable()
 export class UsersService {
@@ -66,7 +68,7 @@ export class UsersService {
                     as: 'senders',
                     required: false,
                     where: {
-                        '$senders.Friend.status$': 'ACCEPTED'
+                        '$senders.Friend.status$': ACCEPTED
                     },
                     include: [{ model: Profile }]
                 },
@@ -75,13 +77,48 @@ export class UsersService {
                     required: false,
                     as: 'receivers',
                     where: {
-                        '$receivers.Friend.status$': 'ACCEPTED'
+                        '$receivers.Friend.status$': ACCEPTED
                     },
                     include: [{ model: Profile }]
                 },
             ]
         });
         return this.formatFriendsObject(friends);
+    }
+
+    async pendingFriendRequestSent(id): Promise<any> {
+        const pendings = await this.userRepository.findOne({
+            where: { id },
+            include: [
+                { 
+                    model: User,
+                    as: 'senders',
+                    required: false,
+                    where: {
+                        '$senders.Friend.status$': PENDING
+                    },
+                    include: [{ model: Profile }]
+                }
+            ]
+        });
+        return pendings.senders;
+    }
+
+    async pendingFriendRequestReceived(id): Promise<any> {
+        return await this.userRepository.findOne({
+            where: { id },
+            include: [
+                { 
+                    model: User,
+                    required: false,
+                    as: 'receivers',
+                    where: {
+                        '$receivers.Friend.status$': PENDING
+                    },
+                    include: [{ model: Profile }]
+                }
+            ]
+        });
     }
 
     private formatFriendsObject(friendsData) {
