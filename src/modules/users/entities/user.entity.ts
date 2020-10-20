@@ -1,6 +1,7 @@
-import { Table, Column, Model, DataType, DefaultScope, Scopes, BeforeCreate, HasOne } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, DefaultScope, Scopes, BeforeCreate, HasOne, BelongsToMany } from 'sequelize-typescript';
 import * as bcrypt from 'bcrypt';
 import { Profile } from '../../profiles/entities/profile.entity';
+import { Friend } from '../../friends/entities/friend.entity';
 
 @DefaultScope(() => ({
     attributes: {
@@ -73,4 +74,10 @@ export class User extends Model<User> {
 
     @HasOne(() => Profile)
     profile: Profile;
+
+    @BelongsToMany(() => User, () => Friend, 'senderId', 'receiverId')
+    senders: User[];
+
+    @BelongsToMany(() => User, () => Friend, 'receiverId', 'senderId')
+    receivers: User[];
 }
