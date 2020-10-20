@@ -16,7 +16,13 @@ export class FriendsController {
     @UseGuards(AuthGuard('jwt'))
     @Get()
     async getAllFriends(@Request() req): Promise<any> {
-        return await this.friendService.allFriend(req.user.id);
+        return await this.friendService.allFriends(req.user.id);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Get('pending/sents')
+    async pendingFriendRequestSent(@Request() req): Promise<any> {
+        return await this.friendService.pendingFriendRequestSent(req.user.id);
     }
 
     @UseGuards(AuthGuard('jwt'))
