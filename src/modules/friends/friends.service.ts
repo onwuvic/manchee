@@ -32,8 +32,12 @@ export class FriendsService {
         return await this.friendRepository.create({receiverId, senderId: authId});
     }
 
-    async allFriend(userId): Promise<any> {
+    async allFriends(userId): Promise<any> {
         return await this.userService.findAllFriends(userId);
+    }
+
+    async pendingFriendRequestSent(authId): Promise<any> {
+        return await this.userService.pendingFriendRequestSent(authId);
     }
 
     async acceptRequest(authId, senderId): Promise<any> {
