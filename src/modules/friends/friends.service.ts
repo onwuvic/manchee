@@ -40,6 +40,10 @@ export class FriendsService {
         return await this.userService.pendingFriendRequestSent(authId);
     }
 
+    async pendingFriendRequestReceived(authId): Promise<any> {
+        return await this.userService.pendingFriendRequestReceived(authId);
+    }
+
     async acceptRequest(authId, senderId): Promise<any> {
         // find the friend request where auth user is the reciever and the sender is another user
         const request = await this.friendRepository.findOne({
