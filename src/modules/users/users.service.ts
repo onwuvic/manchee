@@ -66,19 +66,32 @@ export class UsersService {
                 { 
                     model: User,
                     as: 'senders',
-                    required: false,
-                    where: {
-                        '$senders.Friend.status$': ACCEPTED
+                    through: {
+                        attributes: [],
+                        where: {
+                            status: ACCEPTED
+                        }
                     },
-                    include: [{ model: Profile }]
+                    required: false,
+                    // where: {
+                    //     '$senders.Friend.status$': ACCEPTED
+                    // },
+                    include: [{ model: Profile }],
+                    
                 },
                 { 
                     model: User,
-                    required: false,
                     as: 'receivers',
-                    where: {
-                        '$receivers.Friend.status$': ACCEPTED
+                    through: {
+                        where: {
+                            status: ACCEPTED
+                        },
+                        attributes: []
                     },
+                    required: false,
+                    // where: {
+                    //     '$receivers.Friend.status$': ACCEPTED
+                    // },
                     include: [{ model: Profile }]
                 },
             ]
@@ -94,9 +107,15 @@ export class UsersService {
                     model: User,
                     as: 'senders',
                     required: false,
-                    where: {
-                        '$senders.Friend.status$': PENDING
+                    through: {
+                        attributes: [],
+                        where: {
+                            status: PENDING
+                        }
                     },
+                    // where: {
+                    //     '$senders.Friend.status$': PENDING
+                    // },
                     include: [{ model: Profile }]
                 }
             ]
@@ -112,9 +131,15 @@ export class UsersService {
                     model: User,
                     required: false,
                     as: 'receivers',
-                    where: {
-                        '$receivers.Friend.status$': PENDING
+                    through: {
+                        attributes: [],
+                        where: {
+                            status: PENDING
+                        }
                     },
+                    // where: {
+                    //     '$receivers.Friend.status$': PENDING
+                    // },
                     include: [{ model: Profile }]
                 }
             ]
