@@ -1,0 +1,30 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: manchee
+    container_name: manchee-api
+    depends_on:
+      - db
+    networks:
+      - manchee-network
+    ports:
+      - '3000:3000'
+  
+  db:
+    container_name: manchee_db
+    image: postgres:10-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pwd
+      - PGDATA=/var/lib/postgresql/data/pg10
+    networks:
+      - manchee-network
+    ports:
+      - '32768:5432'
+
+networks:
+  manchee-network:
+    driver: bridge
