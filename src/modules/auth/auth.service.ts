@@ -50,6 +50,8 @@ export class AuthService {
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password, ...result } = newUser['dataValues'];
+
+            // send verification mail
             return result;
         } catch (error) {
             throw new InternalServerErrorException('Error creating a user');
