@@ -26,7 +26,7 @@
     "db:seed": "node_modules/.bin/sequelize db:seed:all"
   },
   "dependencies": {
-    "@nestjs-modules/mailer": "^1.5.1",
+    "@anchan828/nest-sendgrid": "^0.3.32",
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/jwt": "^7.1.0",
@@ -38,7 +38,6 @@
     "class-validator": "^0.12.2",
     "dotenv": "^8.2.0",
     "faker": "^5.1.0",
-    "nodemailer": "^6.4.16",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
