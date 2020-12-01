@@ -64,7 +64,13 @@ export class User extends Model<User> {
         type: DataType.DATE,
         allowNull: true
     })
-    resetPasswordExpires: number;
+    resetPasswordExpires: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: true
+    })
+    verifyToken: string;
 
     @BeforeCreate
     static async hashPassword(user: User) {
