@@ -26,6 +26,7 @@
     "db:seed": "node_modules/.bin/sequelize db:seed:all"
   },
   "dependencies": {
+    "@anchan828/nest-sendgrid": "^0.3.32",
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/jwt": "^7.1.0",
@@ -42,6 +43,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.4.1",
     "pg-hstore": "^2.3.3",
+    "rand-token": "^1.0.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",

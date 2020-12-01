@@ -1,4 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { MailService } from '../../core/mail/mail.service';
 import { SecurityService } from '../../core/services/security/security.service';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
@@ -7,7 +8,8 @@ import { UsersService } from '../users/users.service';
 export class AuthService {
     constructor(
         private readonly userService: UsersService,
-        private readonly securityService: SecurityService
+        private readonly securityService: SecurityService,
+        private readonly mailService: MailService,
     ) { }
 
     async validateUser(username: string, pass: string): Promise<User | null> {
@@ -46,10 +48,17 @@ export class AuthService {
 
     async create(user): Promise<User> {
         try {
-            const newUser = await this.userService.create({ ...user }); 
+            const verifyToken = this.securityService.generateRandomToken();
+
+            const newUser = await this.userService.create({ verifyToken, ...user });
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password, ...result } = newUser['dataValues'];
+
+            const url = `${process.env.FRONTEND_URL}/auth/verify/${verifyToken}`;
+
+            // send verification mail
+            await this.mailService.emailVerification(result.email, result.firstName, url);
             return result;
         } catch (error) {
             throw new InternalServerErrorException('Error creating a user');
