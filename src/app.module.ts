@@ -10,7 +10,6 @@ import { AuthModule } from './modules/auth/auth.module';
 // import { models } from './core/database/models';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { FriendsModule } from './modules/friends/friends.module';
-import { MailModule } from './core/mail/mail.module';
 
 @Module({
   imports: [
@@ -41,8 +40,7 @@ import { MailModule } from './core/mail/mail.module';
     UsersModule,
     AuthModule,
     ProfilesModule,
-    FriendsModule,
-    MailModule
+    FriendsModule
   ],
   controllers: [AppController],
   providers: [AppService],
