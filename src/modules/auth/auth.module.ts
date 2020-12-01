@@ -7,6 +7,7 @@ import { UsersModule } from '../users/users.module';
 import { SecurityService } from '../../core/services/security/security.service';
 import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
+import { MailModule } from '../../core/mail/mail.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { JwtStrategy } from './jwt.strategy';
       secret: process.env.JWTKEY,
       signOptions: { expiresIn: process.env.TOKEN_EXPIRATION },
     }),
+    MailModule
   ],
   controllers: [AuthController],
   providers: [
