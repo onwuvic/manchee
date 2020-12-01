@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { generate } from 'rand-token';
 
 @Injectable()
 export class SecurityService {
     constructor(private readonly jwtService: JwtService) {}
+
+    generateRandomToken() {
+      return generate(16);
+    }
 
     async hashPassword(password) {
       const hashPass = await bcrypt.hash(password, 10);
