@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnprocessableEntityException } from '@nestjs/common';
 import { MailService } from '../../core/mail/mail.service';
 import { SecurityService } from '../../core/services/security/security.service';
 import { User } from '../users/entities/user.entity';
@@ -62,6 +62,25 @@ export class AuthService {
             return result;
         } catch (error) {
             throw new InternalServerErrorException('Error creating a user');
+        }
+    }
+
+    async verify(verifyToken): Promise<any> {
+        // find user by verifyToken
+        const user = await this.userService.findUserByVerifyToken(verifyToken);
+
+        // if user does not exist return user is already verify
+        if (!user) {
+            throw new UnprocessableEntityException('Invalid verification token');
+        }
+
+        try {
+            // update user. set veifyToken to null and isVerify to true
+            await user.update({ isVerify: true, verifyToken: null });
+
+            return 'Thank you, account verified. You can login now';
+        } catch (error) {
+            throw new InternalServerErrorException('Error verifying user');
         }
     }
 }
