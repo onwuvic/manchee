@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsEmail, IsNotEmpty } from "class-validator";
 
 export class ID {
     @IsNotEmpty()
@@ -8,4 +8,10 @@ export class ID {
 export class VerifyToken {
     @IsNotEmpty()
     readonly verifyToken: string;
+}
+
+export class IsEmailDto {
+    @IsNotEmpty()
+    @IsEmail()
+    readonly email: string;
 }
