@@ -28,7 +28,7 @@ export class UsersService {
 
             await transaction.commit();
             // find the user and return
-            const newUser = await this.findOneById(createdUser.id);
+            const newUser = await this.findUserById(createdUser.id);
 
             return newUser; 
         } catch (error) {
@@ -37,11 +37,11 @@ export class UsersService {
         }  
     }
 
-    async findOneByEmail(email: string): Promise<User> {
+    async findUserByEmail(email: string): Promise<User> {
         return await this.userRepository.scope('withPassword').findOne<User>({ where: { email } });
     }
 
-    async findOneById(id: number): Promise<User> {
+    async findUserById(id: number): Promise<User> {
         return await this.userRepository.findOne<User>({ 
             where: { id },
             include: [
