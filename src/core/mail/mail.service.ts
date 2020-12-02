@@ -15,4 +15,14 @@ export class MailService {
             html: mailMessage.verificationMessageHtml(firstName, url),
         });
     }
+
+    async resetPasswordMail(email, firstName, url): Promise<void> {
+        await this.sendGrid.send({
+            to: `${email}`,
+            from: 'Manchee <okwy23@gmail.com>',
+            subject: "Password Reset",
+            text: mailMessage.resetPasswordMessageText(firstName, url),
+            html: mailMessage.resetPasswordMessageHtml(firstName, url)
+        });
+    }
 }
