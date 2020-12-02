@@ -50,6 +50,12 @@ export class UsersService {
         });
     }
 
+    async findUserByVerifyToken(verifyToken): Promise<User> {
+        return await this.userRepository.findOne<User>({ 
+            where: { verifyToken, isVerify: false }
+        }); 
+    }
+
     async deleteById(id: number): Promise<string> {
         await this.userRepository.destroy({ where: { id }});
         return 'Deleted Successfully';
