@@ -1,6 +1,6 @@
-import { Body, Controller, Post, UseGuards, Request, Param, Get } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Request, Param, Get, Put } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { VerifyToken } from '../../core/validation/validation.dto';
+import { IsEmailDto, VerifyToken } from '../../core/validation/validation.dto';
 import { IsExist } from '../../core/guards/isExist.guard';
 import { UserDto } from '../users/dto/user.dto';
 import { AuthService } from './auth.service';
@@ -24,5 +24,10 @@ export class AuthController {
     @Get('verify/:verifyToken')
     async verify(@Param() params: VerifyToken) {
         return await this.authService.verify(params.verifyToken);
+    }
+
+    @Put('forget/password')
+    async sendResetPassword(@Body() body: IsEmailDto): Promise<any> {
+        return await this.authService.sendResetPassword(body.email);
     }
 }
