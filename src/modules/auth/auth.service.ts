@@ -1,4 +1,5 @@
-import { Injectable, InternalServerErrorException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { RESETLINKEXPIRES } from '../../core/constants';
 import { MailService } from '../../core/mail/mail.service';
 import { SecurityService } from '../../core/services/security/security.service';
 import { User } from '../users/entities/user.entity';
@@ -71,7 +72,7 @@ export class AuthService {
 
         // if user does not exist return user is already verify
         if (!user) {
-            throw new UnprocessableEntityException('Invalid verification token');
+            throw new BadRequestException('Invalid verification token');
         }
 
         try {
@@ -82,5 +83,35 @@ export class AuthService {
         } catch (error) {
             throw new InternalServerErrorException('Error verifying user');
         }
+    }
+
+    async sendResetPassword(email) {
+        // find user by email
+        const user = await this.userService.findUserByEmail(email);
+        // if user doesn't exist throw 404
+        if (!user) {
+            throw new BadRequestException('Email address is not registered');
+        }
+
+        try {
+           // generate token
+            const resetToken = this.securityService.generateRandomToken();
+            // generate expire time
+            const resetExpires = Date.now() + RESETLINKEXPIRES;
+            
+            // Update user
+            await user.update({resetPasswordToken: resetToken, resetPasswordExpires: resetExpires });
+
+            // send user email
+            const url = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
+            
+            await this.mailService.resetPasswordMail(user.email, user.firstName, url);
+
+            // return success message and status code
+            return 'A password reset link has been sent to your email'; 
+        } catch (error) {
+            throw new InternalServerErrorException('Error attempting to reset password. Try again later'); 
+        }
+
     }
 }
