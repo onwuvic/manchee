@@ -26,17 +26,27 @@ export const mailMessage = {
         ${url} to verify your account`;
     },
 
-    resetPassword: function(name, url) {
+    resetPasswordMessageHtml(firstName, url) {
         return `
         <div>
-        <h3>Hi ${name},</h3>
-        <p>You are receiving this because you have requested a password reset <br>
-        Please click the link below or copy and paste it in your browser.</p>
-        <br/>
-        <a href="${url}">${url}</a>
-        <p>If you did not request this, Please ignore this mail, your password will remain unchanged</p>
+            <h3>Hi ${firstName},</h3>
+            <p>You are receiving this because you have requested a password reset <br>
+            Please click the link below or copy and paste it in your browser.</p>
+            <br/>
+            <a href="${url}">${url}</a>
+            <p>If you did not request this, Please ignore this mail, your password will remain unchanged</p>
         </div>
         <p>This password expires after 24 hours</p>
         `;
-    }
+    },
+
+    resetPasswordMessageText(firstName, url) {
+        return `
+            Hi ${firstName},
+            You are receiving this because you have requested a password reset
+            Please click the link below or copy and paste it in your browser.
+            <a href="${url}">${url}</a>
+            If you did not request this, Please ignore this mail, your password will remain unchanged
+        `;
+    },
 }
