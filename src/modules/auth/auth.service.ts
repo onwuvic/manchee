@@ -114,4 +114,36 @@ export class AuthService {
         }
 
     }
+
+    async resetPassword(token, password) {
+        // find the user with the token
+        const user = await this.userService.findUserByToken(token);
+        // if no user throw error
+        if (!user) {
+            throw new BadRequestException('Invalid token');
+        }
+        // check if the token has expires
+        if (user.resetPasswordExpires < Date.now()) {
+            throw new BadRequestException('Token has expired');
+        }
+
+        try {
+            // hash the new user password
+            const hashPass = await this.securityService.hashPassword(password);
+
+            // update the user with
+            // new password, reset token to null, expires to null
+            await user.update({
+                password: hashPass,
+                resetPasswordToken: null,
+                resetPasswordExpires: null
+            })
+            
+            // return success message and status code
+            return 'Password has been successfully updated';  
+        } catch (error) {
+            throw new InternalServerErrorException('Error resetting password. Try again later');
+        }
+
+    }
 }
