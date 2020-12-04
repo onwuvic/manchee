@@ -56,6 +56,10 @@ export class UsersService {
         }); 
     }
 
+    async findUserByToken(token: string): Promise<User> {
+        return await this.userRepository.findOne<User>({ where: { resetPasswordToken: token } });
+    }
+
     async deleteById(id: number): Promise<string> {
         await this.userRepository.destroy({ where: { id }});
         return 'Deleted Successfully';
