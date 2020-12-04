@@ -15,3 +15,13 @@ export class IsEmailDto {
     @IsEmail()
     readonly email: string;
 }
+
+export class Token {
+    @IsNotEmpty()
+    readonly token: string;
+}
+
+export class Password {
+    @IsNotEmpty()
+    readonly password: string;
+}
