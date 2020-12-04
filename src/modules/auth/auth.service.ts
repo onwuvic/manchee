@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { RESETLINKEXPIRES } from '../../core/constants';
 import { MailService } from '../../core/mail/mail.service';
 import { SecurityService } from '../../core/services/security/security.service';
@@ -36,15 +36,16 @@ export class AuthService {
     }
 
     async login(user: User): Promise<any> {
-        // TODO::
         // check if the user is verify
+        if (!user.isVerify) {
+           throw new ForbiddenException('Please verify your account');
+        }
 
         // generate token
         const token = await this.securityService.generateToken(user);
 
         // return user info and token
         return { user, token };
-
     }
 
     async create(user): Promise<User> {
