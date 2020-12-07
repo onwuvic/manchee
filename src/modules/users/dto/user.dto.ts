@@ -1,4 +1,6 @@
-import { IsNotEmpty, MinLength, IsEmail, IsEnum } from 'class-validator';
+import { IsNotEmpty, MinLength, IsEmail, IsEnum, Validate } from 'class-validator';
+import { IsDate } from '../../../core/validation/custom-validations/isDate';
+import { NotLessThanEighteen } from '../../../core/validation/custom-validations/notLessThanEighteen';
 
 enum Gender {
     MALE = 'male',
@@ -25,4 +27,10 @@ export class UserDto {
         message: 'gender must be either male or female',
     })
     readonly gender: Gender;
+
+    @IsDate('dateOfBirth', {
+        message: 'Provide a valid date',
+    })
+    @Validate(NotLessThanEighteen)
+    readonly dateOfBirth: Date;
 }
