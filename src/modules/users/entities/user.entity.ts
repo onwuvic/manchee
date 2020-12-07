@@ -41,18 +41,24 @@ export class User extends Model<User> {
     password: string;
 
     @Column({
-        type: DataType.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-    })
-    isVerify: boolean;
-
-    @Column({
         type: DataType.ENUM,
         values: ['male', 'female'],
         allowNull: false,
     })
     gender: string;
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: false
+    })
+    dateOfBirth: Date;
+
+    @Column({
+        type: DataType.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    })
+    isVerify: boolean;
 
     @Column({
         type: DataType.STRING,
