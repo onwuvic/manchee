@@ -38,6 +38,10 @@ module.exports = {
       values: ['male', 'female'],
       allowNull: false
     },
+    dateOfBirth: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
     resetPasswordToken: {
       type: Sequelize.STRING,
       allowNull: true
