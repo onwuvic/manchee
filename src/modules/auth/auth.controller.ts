@@ -4,6 +4,7 @@ import { IsEmailDto, VerifyToken, Token, Password } from '../../core/validation/
 import { DoesEmailExist } from '../../core/guards/doesEmailExist.guard';
 import { UserDto } from '../users/dto/user.dto';
 import { AuthService } from './auth.service';
+import { DoesUsernameExist } from '../../core/guards/doesUsernameExist.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -16,6 +17,7 @@ export class AuthController {
     }
 
     @UseGuards(DoesEmailExist)
+    @UseGuards(DoesUsernameExist)
     @Post('signup')
     async signUp(@Body() user: UserDto) {
         return await this.authService.create(user);
