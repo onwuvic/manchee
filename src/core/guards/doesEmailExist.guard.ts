@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { UsersService } from '../../modules/users/users.service';
 
 @Injectable()
-export class IsExist implements CanActivate {
+export class DoesEmailExist implements CanActivate {
     constructor(private readonly userService: UsersService) { }
 
     canActivate(
