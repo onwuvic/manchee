@@ -41,6 +41,10 @@ export class UsersService {
         return await this.userRepository.scope('withPassword').findOne<User>({ where: { email } });
     }
 
+    async findUserByUsername(username: string): Promise<User> {
+        return await this.userRepository.findOne<User>({ where: { username } });
+    }
+
     async findUserById(id: number): Promise<User> {
         return await this.userRepository.findOne<User>({ 
             where: { id },
