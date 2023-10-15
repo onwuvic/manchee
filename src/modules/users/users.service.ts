@@ -42,15 +42,18 @@ export class UsersService {
     }
 
     async findUserByUsername(username: string): Promise<User> {
-        return await this.userRepository.findOne<User>({ where: { username } });
+        return await this.userRepository.findOne<User>({
+          where: { username },
+          include: [{ model: Profile }],
+        });
     }
 
     async findUserById(id: number): Promise<User> {
-        return await this.userRepository.findOne<User>({ 
-            where: { id },
-            include: [
-                { model: Profile },
-            ] 
+        return await this.userRepository.findOne<User>({
+          where: { id },
+          include: [
+            { model: Profile }
+          ],
         });
     }
 
@@ -110,6 +113,7 @@ export class UsersService {
                 },
             ]
         });
+        // return friends
         return [...friends.senders, ...friends.receivers];
     }
 

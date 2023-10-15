@@ -5,6 +5,7 @@ import { NotLessThanEighteen } from '../../../core/validation/custom-validations
 enum Gender {
     MALE = 'male',
     FEMALE = 'female',
+    OTHERS = 'others'
 }
 
 export class UserDto {
@@ -27,7 +28,7 @@ export class UserDto {
 
     @IsNotEmpty()
     @IsEnum(Gender, {
-        message: 'gender must be either male or female',
+        message: 'gender must be either male, female or others',
     })
     readonly gender: Gender;
 

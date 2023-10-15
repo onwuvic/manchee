@@ -28,3 +28,5 @@
 - function documentation
 - type checking everything
 - Testing 
+
+- All users should be protected

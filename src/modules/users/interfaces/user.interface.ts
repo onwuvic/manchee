@@ -8,3 +8,4 @@ export interface Friends {
     updatedAt: string;
 }
 
+// export interface User
