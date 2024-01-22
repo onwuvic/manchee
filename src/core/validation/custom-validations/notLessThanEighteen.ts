@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator';
-import * as moment from 'moment';
+import { differenceInYears, parse } from 'date-fns';
+import { enGB } from 'date-fns/locale';
 
 @ValidatorConstraint({ name: 'notLessThanEighteen', async: false })
 export class NotLessThanEighteen implements ValidatorConstraintInterface {
-  validate(date: string, args: ValidationArguments) {
-    const eighteenYearsAgo = moment().subtract(18, 'years');
-    const birthday = moment(date);
-    return eighteenYearsAgo.isAfter(birthday);
+  validate(date: any, args: ValidationArguments) {
+    const dateOfBirth = parse(date, 'P', new Date(), {
+      locale: enGB,
+    });
+    const age = differenceInYears(new Date(), dateOfBirth);
+    return age >= 18;
   }
 
   defaultMessage(args: ValidationArguments) {
