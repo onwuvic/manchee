@@ -1,0 +1,31 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Email Verification</title>
+    <style>
+      .button { display: inline-block; padding: 10px 20px; font-size: 16px;
+      cursor: pointer; text-align: center; text-decoration: none; outline: none;
+      color: #fff; background-color: #4CAF50; border: none; border-radius: 15px;
+      } .button:hover {background-color: #3e8e41} .button:active {
+      background-color: #3e8e41; transform: translateY(4px); }
+    </style>
+  </head>
+  <body>
+
+    <h2>Hi, {{firstName}}!</h2>
+
+    <p>Welcome to Manchee, thanks for signing up, let's get you connected with
+      friends, But first activate your account by clicking on this link:</p>
+
+    <!-- Button for Account verification -->
+    <a href='{{url}}' class='button'>Verify Account</a>
+
+    <p>If the button above does not work, please copy and paste the following
+      URL into your web browser:</p>
+
+    <!-- Plain text URL for copying and pasting -->
+    <p>{{url}}</p>
+
+  </body>
+</html>
