@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { BullModule } from '@nestjs/bull';
 import { ConfigModule } from '@nestjs/config';
 
 import mailConfig from 'core/mail/mail.config';
+import queueConfig from 'core/queue/queue.config';
+import { QueueModule } from 'core/queue/queue.module';
 import { AuthModule } from 'modules/auth/auth.module';
 import configuration from 'core/config/configuration';
 import { UsersModule } from 'modules/users/users.module';
@@ -17,14 +18,9 @@ import { AppController } from './app.controller';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [databaseConfig, mailConfig, configuration],
+      load: [databaseConfig, mailConfig, configuration, queueConfig],
     }),
-    BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
-    }),
+    QueueModule,
     DatabaseModule,
     UsersModule,
     AuthModule,
