@@ -1,9 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
-import { parse, isValid } from 'date-fns';
+import {
+  registerDecorator,
+  ValidationOptions,
+  ValidationArguments,
+} from 'class-validator';
 import { enGB } from 'date-fns/locale';
+import { parse, isValid } from 'date-fns';
 
-export function IsDate(property: string, validationOptions?: ValidationOptions) {
+export function IsDate(
+  property: string,
+  validationOptions?: ValidationOptions,
+) {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return function (object: Object, propertyName: string) {
     registerDecorator({

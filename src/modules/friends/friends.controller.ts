@@ -9,8 +9,10 @@ import {
   Param,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+
+import { ID } from 'core/validation/validation.dto';
+
 import { FriendsService } from './friends.service';
-import { ID } from '../../core/validation/validation.dto';
 
 @Controller('friends')
 export class FriendsController {

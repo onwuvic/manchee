@@ -1,102 +1,113 @@
-import { Table, Column, Model, DataType, DefaultScope, Scopes, BeforeCreate, HasOne, BelongsToMany } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  DefaultScope,
+  Scopes,
+  BeforeCreate,
+  HasOne,
+  BelongsToMany,
+} from 'sequelize-typescript';
 import * as bcrypt from 'bcrypt';
-import { Profile } from '../../profiles/entities/profile.entity';
-import { Friend } from '../../friends/entities/friend.entity';
+
+import { Friend } from 'modules/friends/entities/friend.entity';
+import { Profile } from 'modules/profiles/entities/profile.entity';
 
 @DefaultScope(() => ({
-    attributes: {
-        exclude: ['password']
-    }
+  attributes: {
+    exclude: ['password'],
+  },
 }))
 @Scopes(() => ({
-    withPassword: {}
+  withPassword: {},
 }))
 @Table({
-    paranoid: true
+  paranoid: true,
 })
 export class User extends Model<User> {
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-    })
-    firstName: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  firstName: string;
 
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-    })
-    lastName: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  lastName: string;
 
-    @Column({
-        type: DataType.STRING,
-        unique: true,
-        allowNull: false,
-    })
-    email: string;
+  @Column({
+    type: DataType.STRING,
+    unique: true,
+    allowNull: false,
+  })
+  email: string;
 
-    @Column({
-        type: DataType.STRING,
-        unique: true,
-        allowNull: false,
-    })
-    username: string;
+  @Column({
+    type: DataType.STRING,
+    unique: true,
+    allowNull: false,
+  })
+  username: string;
 
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-    })
-    password: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  password: string;
 
-    @Column({
-        type: DataType.ENUM,
-        values: ['male', 'female', 'others'],
-        allowNull: false,
-    })
-    gender: string;
+  @Column({
+    type: DataType.ENUM,
+    values: ['male', 'female', 'others'],
+    allowNull: false,
+  })
+  gender: string;
 
-    @Column({
-        type: DataType.DATE,
-        allowNull: false
-    })
-    dateOfBirth: Date;
+  @Column({
+    type: DataType.DATE,
+    allowNull: false,
+  })
+  dateOfBirth: Date;
 
-    @Column({
-        type: DataType.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-    })
-    isVerify: boolean;
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  })
+  isVerify: boolean;
 
-    @Column({
-        type: DataType.STRING,
-        allowNull: true
-    })
-    resetPasswordToken: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  resetPasswordToken: string;
 
-    @Column({
-        type: DataType.DATE,
-        allowNull: true
-    })
-    resetPasswordExpires: number;
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  resetPasswordExpires: number;
 
-    @Column({
-        type: DataType.STRING,
-        allowNull: true
-    })
-    verifyToken: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  verifyToken: string;
 
-    @BeforeCreate
-    static async hashPassword(user: User) {
-        user.password = await bcrypt.hash(user.password, 10);
-        user.gender.toLowerCase();
-    }
+  @BeforeCreate
+  static async hashPassword(user: User) {
+    user.password = await bcrypt.hash(user.password, 10);
+    user.gender.toLowerCase();
+  }
 
-    @HasOne(() => Profile)
-    profile: Profile;
+  @HasOne(() => Profile)
+  profile: Profile;
 
-    @BelongsToMany(() => User, () => Friend, 'senderId', 'receiverId')
-    senders: User[];
+  @BelongsToMany(() => User, () => Friend, 'senderId', 'receiverId')
+  senders: User[];
 
-    @BelongsToMany(() => User, () => Friend, 'receiverId', 'senderId')
-    receivers: User[];
+  @BelongsToMany(() => User, () => Friend, 'receiverId', 'senderId')
+  receivers: User[];
 }

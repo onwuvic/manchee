@@ -10,14 +10,14 @@ module.exports = {
         avatarImage: faker.image.avatar(),
         coverImage: faker.image.imageUrl(),
         bio: faker.lorem.sentence(),
-        userId: i+1,
+        userId: i + 1,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       };
       profiles.push(seedData);
     }
 
     return queryInterface.bulkInsert('Profiles', profiles);
   },
-  down: queryInterface => queryInterface.bulkDelete('Profiles')
+  down: (queryInterface) => queryInterface.bulkDelete('Profiles'),
 };

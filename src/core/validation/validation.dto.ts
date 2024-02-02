@@ -1,27 +1,27 @@
-import { IsEmail, IsNotEmpty } from "class-validator";
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export class ID {
-    @IsNotEmpty()
-    readonly id: number | string;
+  @IsNotEmpty()
+  readonly id: number | string;
 }
 
 export class VerifyToken {
-    @IsNotEmpty()
-    readonly verifyToken: string;
+  @IsNotEmpty()
+  readonly verifyToken: string;
 }
 
 export class IsEmailDto {
-    @IsNotEmpty()
-    @IsEmail()
-    readonly email: string;
+  @IsNotEmpty()
+  @IsEmail()
+  readonly email: string;
 }
 
 export class Token {
-    @IsNotEmpty()
-    readonly token: string;
+  @IsNotEmpty()
+  readonly token: string;
 }
 
 export class Password {
-    @IsNotEmpty()
-    readonly password: string;
+  @IsNotEmpty()
+  readonly password: string;
 }
