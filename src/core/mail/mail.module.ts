@@ -1,15 +1,21 @@
-import { Module } from '@nestjs/common';
-// import { SendGridModule } from "@anchan828/nest-sendgrid";
 import { join } from 'path';
+import { Module } from '@nestjs/common';
+import { BullModule } from '@nestjs/bull';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+// import { SendGridModule } from "@anchan828/nest-sendgrid";
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+
+import { MailQueueConsumer } from './queue/mail.consumers';
 
 @Module({
   imports: [
     // SendGridModule.forRoot({
     //   apikey: process.env.SENDGRID_API_KEY,
     // }),
+    BullModule.registerQueueAsync({
+      name: 'mailSending',
+    }),
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -22,7 +28,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
   ],
-  providers: [],
-  exports: [],
+  providers: [MailQueueConsumer],
+  exports: [BullModule],
 })
 export class MailModule {}
